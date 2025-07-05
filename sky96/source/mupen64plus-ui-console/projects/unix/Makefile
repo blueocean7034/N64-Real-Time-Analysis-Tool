@@ -284,7 +284,7 @@ OBJDIRS = $(dir $(OBJECTS))
 $(shell $(MKDIR) $(OBJDIRS))
 
 # build targets
-TARGET = mupen64plus$(POSTFIX)$(EXEEXT)
+TARGET = sky96$(POSTFIX)$(EXEEXT)
 
 targets:
 	@echo "Mupen64Plus-ui-console makefile."
@@ -325,20 +325,20 @@ install: $(TARGET)
 	$(INSTALL) -d "$(DESTDIR)$(BINDIR)"
 	$(INSTALL) -m 0755 $(INSTALL_STRIP_FLAG) $(TARGET) "$(DESTDIR)$(BINDIR)"
 	$(INSTALL) -d "$(DESTDIR)$(MANDIR)/man6"
-	$(INSTALL) -m 0644 $(SRCDIR)/../doc/mupen64plus.6 "$(DESTDIR)$(MANDIR)/man6"
+       $(INSTALL) -m 0644 $(SRCDIR)/../doc/sky96.6 "$(DESTDIR)$(MANDIR)/man6"
 	$(INSTALL) -d "$(DESTDIR)$(APPSDIR)"
-	$(INSTALL) -m 0644 $(SRCDIR)/../data/mupen64plus.desktop "$(DESTDIR)$(APPSDIR)"
+       $(INSTALL) -m 0644 $(SRCDIR)/../data/sky96.desktop "$(DESTDIR)$(APPSDIR)"
 	$(INSTALL) -d "$(DESTDIR)$(ICONSDIR)/48x48/apps"
-	$(INSTALL) -m 0644 $(SRCDIR)/../data/icons/48x48/apps/mupen64plus.png "$(DESTDIR)$(ICONSDIR)/48x48/apps"
+       $(INSTALL) -m 0644 $(SRCDIR)/../data/icons/48x48/apps/sky96.png "$(DESTDIR)$(ICONSDIR)/48x48/apps"
 	$(INSTALL) -d "$(DESTDIR)$(ICONSDIR)/scalable/apps"
-	$(INSTALL) -m 0644 $(SRCDIR)/../data/icons/scalable/apps/mupen64plus.svg "$(DESTDIR)$(ICONSDIR)/scalable/apps"
+       $(INSTALL) -m 0644 $(SRCDIR)/../data/icons/scalable/apps/sky96.svg "$(DESTDIR)$(ICONSDIR)/scalable/apps"
 
 
 uninstall:
-	$(RM) "$(DESTDIR)$(BINDIR)/$(TARGET)" "$(DESTDIR)$(MANDIR)/man6/mupen64plus.6"
-	$(RM) "$(DESTDIR)$(APPSDIR)/mupen64plus.desktop"
-	$(RM) "$(DESTDIR)$(ICONSDIR)/48x48/apps/mupen64plus.png"
-	$(RM) "$(DESTDIR)$(ICONSDIR)/scalable/apps/mupen64plus.svg"
+       $(RM) "$(DESTDIR)$(BINDIR)/$(TARGET)" "$(DESTDIR)$(MANDIR)/man6/sky96.6"
+       $(RM) "$(DESTDIR)$(APPSDIR)/sky96.desktop"
+       $(RM) "$(DESTDIR)$(ICONSDIR)/48x48/apps/sky96.png"
+       $(RM) "$(DESTDIR)$(ICONSDIR)/scalable/apps/sky96.svg"
 
 
 # build dependency files
