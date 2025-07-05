@@ -37,21 +37,20 @@ These choices keep the tool portable and very low latency. SDL2 and Dear ImGui r
 All new analysis-tool code should live in a dedicated directory (e.g. `analysis_tool/`) so merges from upstream remain simple.
 
 ## Building the Emulator
-1. Install dependencies. On Ubuntu:
-   ```bash
-   sudo apt update
-   sudo apt install build-essential cmake libsdl2-dev
-   ```
-   On Windows, use MSYS2 or Visual Studio with the equivalent SDL2 packages.
-   
-2. Build via CMake:
-   ```bash
-   cd sky96
-   mkdir build && cd build
-   cmake ..
-   make
-   ```
-   This produces the `sky96` executable in `./build`.
+Sky96 relies on the original Mupen64Plus build scripts. Install the required
+packages on Ubuntu:
+```bash
+sudo apt update
+sudo apt install build-essential libsdl2-dev libpng-dev libfreetype6-dev libz-dev
+```
+To build and test the emulator run:
+```bash
+cd sky96
+./m64p_build.sh        # compile all modules into ./test
+./m64p_test.sh         # run the bundled test ROM
+sudo ./m64p_install.sh # optional: install system-wide
+```
+Use `./m64p_uninstall.sh` if you need to remove the installation.
 
 ## Analysis Tool Development
 - Create a new CMake project in `analysis_tool/` that links to the Sky96 core.
