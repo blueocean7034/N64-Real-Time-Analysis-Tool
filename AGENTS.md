@@ -48,7 +48,7 @@ To build and test the emulator run:
 cd sky96
 ./m64p_build.sh        # compile all modules into ./test
 ./m64p_test.sh         # run the bundled test ROM
-sudo ./m64p_install.sh # optional: install system-wide
+./m64p_install.sh      # install locally into the project root
 ```
 Use `./m64p_uninstall.sh` if you need to remove the installation.
 
