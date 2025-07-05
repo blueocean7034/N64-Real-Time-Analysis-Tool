@@ -33,6 +33,8 @@
 #include <SDL.h>
 #include <SDL_main.h>
 #include <SDL_thread.h>
+#include <dlfcn.h>
+#include "../../../analysis_tool/include/analysis_window.h"
 
 #include "cheat.h"
 #include "compare_core.h"
@@ -71,6 +73,8 @@ static const char *l_ConfigDirPath = NULL;
 static const char *l_ROMFilepath = NULL;       // filepath of ROM to load & run at startup
 static const char *l_SaveStatePath = NULL;     // save state to load at startup
 
+static void *g_analysis_lib = NULL;
+
 #if defined(SHAREDIR)
   static const char *l_DataDirPath = SHAREDIR;
 #else
@@ -85,6 +89,29 @@ static int   l_LaunchDebugger = 0;
 
 static eCheatMode l_CheatMode = CHEAT_DISABLE;
 static char      *l_CheatNumList = NULL;
+
+static void analysis_load(core_do_command_func cmd)
+{
+    g_analysis_lib = dlopen("../../analysis_tool/build/libanalysis_tool.so", RTLD_NOW);
+    if (!g_analysis_lib)
+    {
+        fprintf(stderr, "Failed to load analysis tool: %s\n", dlerror());
+        return;
+    }
+    void (*start_fn)(core_do_command_func) = dlsym(g_analysis_lib, "analysis_window_start");
+    if (start_fn)
+        start_fn(cmd);
+}
+
+static void analysis_unload(void)
+{
+    if (!g_analysis_lib) return;
+    void (*stop_fn)(void) = dlsym(g_analysis_lib, "analysis_window_stop");
+    if (stop_fn)
+        stop_fn();
+    dlclose(g_analysis_lib);
+    g_analysis_lib = NULL;
+}
 
 /*********************************************************************************************************
  *  Callback functions from the core
@@ -1139,8 +1166,12 @@ int main(int argc, char *argv[])
     if (l_SaveOptions && (*ConfigHasUnsavedChanges)(NULL))
         (*ConfigSaveFile)();
 
+    analysis_load(CoreDoCommand);
+
     /* run the game */
     (*CoreDoCommand)(M64CMD_EXECUTE, 0, NULL);
+
+    analysis_unload();
 
     /* detach plugins from core and unload them */
     for (i = 0; i < 4; i++)
