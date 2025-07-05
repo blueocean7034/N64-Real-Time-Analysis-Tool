@@ -32,7 +32,11 @@ if [ -z "$M64P_COMPONENTS" ]; then
 fi
 
 TOP_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-MAKE_INSTALL="PLUGINDIR= SHAREDIR= BINDIR= MANDIR= LIBDIR= APPSDIR= ICONSDIR=icons INCDIR=api LDCONFIG=true"
+# Install binaries into a dedicated directory to avoid name clashes with the
+# source folder.  All other artefacts are installed to the project root by
+# default so they can be picked up by the build scripts without adjusting
+# library paths.
+MAKE_INSTALL="PLUGINDIR= SHAREDIR= BINDIR=bin MANDIR= LIBDIR= APPSDIR= ICONSDIR=icons INCDIR=api LDCONFIG=true"
 
 for component in ${M64P_COMPONENTS}; do
         if [ "${component}" = "core" ]; then
