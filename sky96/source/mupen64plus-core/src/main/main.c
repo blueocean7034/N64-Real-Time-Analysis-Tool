@@ -1966,7 +1966,8 @@ m64p_error main_run(void)
     osd_new_message(OSD_MIDDLE_CENTER, "Mupen64Plus Started...");
 
     g_EmulatorRunning = 1;
-    StateChanged(M64CORE_EMU_STATE, M64EMU_RUNNING);
+    g_rom_pause = 1;
+    StateChanged(M64CORE_EMU_STATE, M64EMU_PAUSED);
 
     poweron_device(&g_dev);
     pif_bootrom_hle_execute(&g_dev.r4300);
