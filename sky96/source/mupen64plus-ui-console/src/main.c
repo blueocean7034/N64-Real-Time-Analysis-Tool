@@ -34,7 +34,7 @@
 #include <SDL_main.h>
 #include <SDL_thread.h>
 #include <dlfcn.h>
-#include "../../../analysis_tool/include/analysis_window.h"
+#include "../../../../analysis_tool/include/analysis_window.h"
 
 #include "cheat.h"
 #include "compare_core.h"
