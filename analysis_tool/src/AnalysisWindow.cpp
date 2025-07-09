@@ -10,6 +10,9 @@ static core_do_command_func coreCmd = nullptr;
 
 static void window_loop()
 {
+    int prevCursorState = SDL_ShowCursor(SDL_QUERY);
+    SDL_bool prevRelativeMode = SDL_GetRelativeMouseMode();
+
     SDL_Window* win = SDL_CreateWindow("Analysis Tool", SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED, 320, 240, SDL_WINDOW_SHOWN);
     if (!win)
@@ -17,6 +20,7 @@ static void window_loop()
         fprintf(stderr, "Failed to create analysis window: %s\n", SDL_GetError());
         return;
     }
+    SDL_SetRelativeMouseMode(SDL_FALSE);
     SDL_ShowCursor(SDL_ENABLE);
     Uint32 windowID = SDL_GetWindowID(win);
 
@@ -62,7 +66,8 @@ static void window_loop()
         SDL_Delay(16);
     }
     SDL_DestroyWindow(win);
-    SDL_ShowCursor(SDL_DISABLE);
+    SDL_SetRelativeMouseMode(prevRelativeMode);
+    SDL_ShowCursor(prevCursorState ? SDL_ENABLE : SDL_DISABLE);
 }
 
 extern "C" void analysis_window_start(core_do_command_func cmd)
