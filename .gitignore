@@ -1,0 +1,3 @@
+# Build artifacts
+analysis_tool/build/
+*.log

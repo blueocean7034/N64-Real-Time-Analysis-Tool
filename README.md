@@ -12,3 +12,11 @@ The script installs required build packages using `apt`, compiles all
 Sky96 components (including video and audio plugins), builds the
 `analysis_tool` project, runs its tests via `ctest`, and finally starts
 the emulator with `my_original_rom1.z64`.
+
+For rapid iteration on the analysis tool alone, first configure it once
+with CMake, then use the `build_analysis_tool.sh` script to rebuild and
+run its tests without touching the emulator:
+
+```bash
+./build_analysis_tool.sh
+```
