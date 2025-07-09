@@ -10,19 +10,15 @@ static core_do_command_func coreCmd = nullptr;
 
 static void window_loop()
 {
-    if (SDL_Init(SDL_INIT_VIDEO) != 0)
-    {
-        fprintf(stderr, "Analysis window SDL init failed: %s\n", SDL_GetError());
-        return;
-    }
     SDL_Window* win = SDL_CreateWindow("Analysis Tool", SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED, 320, 240, SDL_WINDOW_SHOWN);
     if (!win)
     {
         fprintf(stderr, "Failed to create analysis window: %s\n", SDL_GetError());
-        SDL_Quit();
         return;
     }
+    SDL_ShowCursor(SDL_ENABLE);
+    Uint32 windowID = SDL_GetWindowID(win);
 
     while (running.load())
     {
@@ -30,8 +26,16 @@ static void window_loop()
         while (SDL_PollEvent(&e))
         {
             if (e.type == SDL_QUIT)
+            {
                 running.store(false);
-            else if (e.type == SDL_MOUSEBUTTONDOWN)
+                SDL_PushEvent(&e); // let the emulator handle quit too
+            }
+            else if (e.type == SDL_WINDOWEVENT && e.window.windowID == windowID)
+            {
+                if (e.window.event == SDL_WINDOWEVENT_CLOSE)
+                    running.store(false);
+            }
+            else if (e.type == SDL_MOUSEBUTTONDOWN && e.button.windowID == windowID)
             {
                 int x = e.button.x;
                 int y = e.button.y;
@@ -42,6 +46,10 @@ static void window_loop()
                     else if (x > 170)
                         coreCmd(M64CMD_PAUSE, 0, nullptr);
                 }
+            }
+            else
+            {
+                SDL_PushEvent(&e); // return event for emulator
             }
         }
         SDL_Surface* surf = SDL_GetWindowSurface(win);
@@ -54,7 +62,7 @@ static void window_loop()
         SDL_Delay(16);
     }
     SDL_DestroyWindow(win);
-    SDL_Quit();
+    SDL_ShowCursor(SDL_DISABLE);
 }
 
 extern "C" void analysis_window_start(core_do_command_func cmd)
