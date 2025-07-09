@@ -73,6 +73,7 @@ Use `./m64p_uninstall.sh` if you need to remove the installation.
 - Write detailed documentation of your work as you go. Implement exception handling and descriptive error messages anywhere you can. Keep notes of decisions and rationale alongside your code or in commit messages.
 - Leave the Mupen64Plus source tree untouched; place all new analysis tool code under `analysis_tool/`.
 - Place all Sky96 emulator code in the separate `sky96/` directory.
+- You are never allowed to run or to try to run `run_sky96.sh`.
 - When adding new features, update relevant READMEs and run `ctest`.
   Ensure the analysis tool builds and all existing tests pass. Add tests for
   every new unit of code and anywhere coverage is missing, and verify the `sky96` executable builds via CMake without errors.
