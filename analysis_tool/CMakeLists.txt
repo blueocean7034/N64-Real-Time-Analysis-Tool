@@ -14,7 +14,7 @@ target_link_libraries(analysis_tool PRIVATE SDL2::SDL2)
 
 add_executable(dummy_test tests/dummy_test.cpp)
 target_include_directories(dummy_test PRIVATE include ../sky96/source/mupen64plus-core/src/api)
-target_link_libraries(dummy_test PRIVATE analysis_tool)
+target_link_libraries(dummy_test PRIVATE analysis_tool SDL2::SDL2)
 
 enable_testing()
 add_test(NAME dummy_test COMMAND dummy_test)
